@@ -30,21 +30,16 @@ const Summary = () => {
   }, 0);
 
   const onCheckout = async () => {
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-        productIds: items.map((item) => item.id)
-      });
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+      productIds: items.map((item) => item.id)
+    });
 
-      // Simulating an error condition
-      if (!response.data.url) {
-        throw new Error("Invalid checkout URL");
-      }
-
-      window.location = response.data.url;
-    } catch (error) {
-      console.error("Error Checkout failed:", error);
-      // Handle the error appropriately - show a message, etc.
+    // Simulating an error condition
+    if (!response.data.url) {
+      throw new Error("Invalid checkout URL");
     }
+
+    window.location = response.data.url;
   }
 
   return ( 
