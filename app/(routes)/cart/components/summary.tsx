@@ -29,6 +29,8 @@ const Summary = () => {
     return total + Number(item.price)
   }, 0);
 
+  //throw new Error("sorry, something went wrong on this page");
+
   const onCheckout = async () => {
     const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
       productIds: items.map((item) => item.id)

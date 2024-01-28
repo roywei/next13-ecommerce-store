@@ -7,13 +7,14 @@ import useCart from '@/hooks/use-cart';
 
 import Summary from './components/summary'
 import CartItem from './components/cart-item';
+import { setupGlobalErrorHandling } from "@/app/async_errors";
 
 export const revalidate = 0;
 
 const CartPage = () => {
   const [isMounted, setIsMounted] = useState(false);
   const cart = useCart();
-
+  setupGlobalErrorHandling();
   useEffect(() => {
     setIsMounted(true);
   }, []);

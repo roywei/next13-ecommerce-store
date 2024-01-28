@@ -3,13 +3,13 @@ import getProducts from "@/actions/get-products";
 import ProductList from "@/components/product-list";
 import Billboard from "@/components/ui/billboard";
 import Container from "@/components/ui/container";
-
+import { setupGlobalErrorHandling } from "../async_errors";
 export const revalidate = 0;
 
 const HomePage = async () => {
   const products = await getProducts({ isFeatured: true });
   const billboard = await getBillboard("0e12e5cf-29ab-4529-b8d5-c5371dae1f7b");
-
+  setupGlobalErrorHandling();
   return (
     <Container>
       <div className="space-y-10 pb-10">
