@@ -30,7 +30,7 @@ const Summary = () => {
     return total + Number(item.price)
   }, 0);
 
-  // throw new Error("Sorry, shopping cart is too busy");
+  throw new Error("Sorry, shopping cart is too busy");
 
   const onCheckout = async () => {
     const checkout_url = `${process.env.NEXT_PUBLIC_API_URL}/checkout`
