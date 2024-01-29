@@ -8,6 +8,7 @@ import Button from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
 import { toast } from "react-hot-toast";
+import { sendErrorToEndpoint } from "@/app/async_errors";
 
 const Summary = () => {
   const searchParams = useSearchParams();
@@ -29,22 +30,24 @@ const Summary = () => {
     return total + Number(item.price)
   }, 0);
 
-  //throw new Error("sorry, something went wrong on this page");
+  throw new Error("Sorry, shopping cart is too busy");
 
   const onCheckout = async () => {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-      productIds: items.map((item) => item.id)
-    });
+    const checkout_url = `${process.env.NEXT_PUBLIC_API_URL}/checkout`
+    try {
 
-    // Simulating an error condition
-    if (!response.data.url) {
-      throw new Error("Invalid checkout URL");
+      const response = await axios.post(checkout_url, {
+        productIds: items.map((item) => item.id)
+      });
+      window.location = response.data.url;
     }
-
-    window.location = response.data.url;
+    catch (error) {
+      sendErrorToEndpoint(error.name, error.stack, checkout_url)
+      console.error('Checkout error:', error);
+    }
   }
 
-  return ( 
+  return (
     <div
       className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
     >
@@ -54,7 +57,7 @@ const Summary = () => {
       <div className="mt-6 space-y-4">
         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
           <div className="text-base font-medium text-gray-900">Order total</div>
-         <Currency value={totalPrice} />
+          <Currency value={totalPrice} />
         </div>
       </div>
       <Button onClick={onCheckout} disabled={items.length === 0} className="w-full mt-6">
@@ -63,5 +66,5 @@ const Summary = () => {
     </div>
   );
 }
- 
+
 export default Summary;
