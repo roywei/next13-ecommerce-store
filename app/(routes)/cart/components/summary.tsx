@@ -33,7 +33,7 @@ const Summary = () => {
   throw new Error("Sorry, shopping cart is too busy");
 
   const onCheckout = async () => {
-    const checkout_url = `${process.env.NEXT_PUBLIC_API_URL}/chessckout`
+    const checkout_url = `${process.env.NEXT_PUBLIC_API_URL}/checkout`
     try {
 
       const response = await axios.post(checkout_url, {
